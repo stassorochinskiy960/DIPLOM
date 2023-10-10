@@ -11,6 +11,7 @@ def post_list(request):
 
 
 def post_detail(request, year, month, day, post):
+
     post = get_object_or_404(Post, slug=post,
                              status='published',
                              publish__year=year,
@@ -24,11 +25,13 @@ def post_detail(request, year, month, day, post):
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
             # Create Comment object but don't save to database yet
-            new_comment = comment_form.save(commit=False)
+            new_comment = comment_form.save(commit=False) 
             # Assign the current post to the comment
             new_comment.post = post
             # Save the comment to the database
             new_comment.save()
+            comment_form = " "
+
     else:
         comment_form = CommentForm()
     return render(request, 'blog/post/detail.html', {'post': post,
